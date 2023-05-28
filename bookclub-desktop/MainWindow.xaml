@@ -13,8 +13,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nev" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Nem" Binding="{Binding GenderDisplay}"/>
-                <DataGridTextColumn Header="Szuletesnap" Binding="{Binding Birth_date}"/>
-                <DataGridTextColumn Header="Kitiltva" Binding="{Binding Banned}"/>
+                <DataGridTextColumn Header="Szuletesnap" Binding="{Binding FormattedBirthDate}"/>
+                <DataGridTextColumn Header="Kitiltva" Binding="{Binding BannedDisplay}"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

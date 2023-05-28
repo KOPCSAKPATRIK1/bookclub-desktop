@@ -26,6 +26,22 @@ public class Member
     public DateTime Birth_date { get => birth_date; set => birth_date = value; }
     public bool Banned { get => banned; set => banned = value; }
 
+    public string FormattedBirthDate
+    {
+        get
+        {
+            return birth_date.ToString("yyyy-MM-dd");
+        }
+    }
+
+    public string BannedDisplay
+    {
+        get
+        {
+            return banned ? "X" : "";
+        }
+    }
+
     public string GenderDisplay
     {
         get
@@ -34,13 +50,10 @@ public class Member
             {
                 case "F":
                     return "No";
-                    break;
                 case "M":
                     return "Ferfi";
-                    break;
                 default:
                     return "Ismeretlen";
-                    break;
             }
         }
     }

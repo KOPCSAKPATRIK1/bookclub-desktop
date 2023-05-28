@@ -40,5 +40,15 @@ namespace bookclub_desktop
             }
             return members;
         }
+
+        internal bool UpdateBnned(Member member)
+        {
+            string sql = "UPDATE members SET banned = @banned WHERE id = @id";
+            MySqlCommand command = conn.CreateCommand();
+            command.CommandText = sql;
+            command.Parameters.AddWithValue("@id", member.Id);
+            command.Parameters.AddWithValue("@banned", !member.Banned);
+            return command.ExecuteNonQuery() == 1;
+        }
     }
 }

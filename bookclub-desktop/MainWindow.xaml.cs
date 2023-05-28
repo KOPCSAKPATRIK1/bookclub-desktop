@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,13 +29,58 @@ namespace bookclub_desktop
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            dbHelper = new DBHelper();
-            members.ItemsSource = dbHelper.ReadMembers();
+            try
+            {
+                dbHelper = new DBHelper();
+                members.ItemsSource = dbHelper.ReadMembers();
+            }
+            catch (MySqlException ex)
+            {
+
+                MessageBox.Show(ex.Message);
+                this.Close();
+            }
         }
 
         private void TiltasButton_Click(object sender, RoutedEventArgs e)
         {
+            Member member = members.SelectedItem as Member;
+            if (member == null)
+            {
+                MessageBox.Show("Tiltas modositasahoz elobb valasszon ki klibbtagod");
+                return;
+            }
 
+            string message = member.Banned ?
+                "Biztos szeretne visszavonni a kivalasztott klubtag tiltasat?" :
+                "Biztos szeretne kitiltani a kivalasztott klubtagot?";
+           MessageBoxResult result = MessageBox.Show(message, "Biztos?",MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                UpdateBanned(member);
+            }
+        }
+
+        private void UpdateBanned(Member member)
+        {
+            try
+            {
+                if (dbHelper.UpdateBnned(member))
+                {
+                    MessageBox.Show("Sikeres modositasz");
+                }
+                else
+                {
+                    MessageBox.Show("Sikertelen modositas");
+                }
+                members.ItemsSource = dbHelper.ReadMembers();
+
+            }
+            catch (MySqlException ex)
+            {
+
+                MessageBox.Show("Hiba totrtent a modositas soran");
+            }
         }
     }
 }
